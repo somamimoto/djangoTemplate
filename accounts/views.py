@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from .forms import UserForm
+from .utils import send_verification_email
+from django.contrib import messages
 
 
 def register_user(request):
@@ -20,6 +22,12 @@ def register_user(request):
                 password=password
             )
             user.save()
+
+            # Send verification email
+            mail_subject = 'Please activate your account'
+            email_template = 'accounts/email/account_verification_email.html'
+            send_verification_email(request, user, mail_subject, email_template)
+            messages.success(request, 'Your account has been registered successfully.')
             return redirect('accounts:register_user')
         else:
             print('Invalid form')
@@ -30,3 +38,7 @@ def register_user(request):
         'form': form,
     }
     return render(request, 'accounts/register_user.html', context)
+
+
+def user_activate(request, uid_b64, token):
+    pass
