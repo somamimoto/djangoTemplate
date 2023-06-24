@@ -9,6 +9,8 @@
     <nav>
         <a href="{% url 'home' %}">HOME</a>
         <a href="{% url 'accounts:register_user' %}">Sign up</a>
+        <a href="{% url 'accounts:login' %}">Login</a>
+        <a href="{% url 'accounts:logout' %}">Logout</a>
     </nav>
     {% block content %}
     {% endblock %}

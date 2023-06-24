@@ -48,8 +48,8 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=False)
     is_superadmin = models.BooleanField(default=False)
 
-    USERNAME_FIELD = 'email'  # required
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']  # should not contain the USERNAME_FIELD or password 
+    USERNAME_FIELD = 'email'  # required -> this 'email' is used for user authentication at the backends : see >>> https://docs.djangoproject.com/ja/4.2/ref/contrib/auth/#django.contrib.auth.backends.ModelBackend.authenticate
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']  # should not contain the USERNAME_FIELD or password
 
     objects = UserManager()
 
