@@ -155,3 +155,8 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Django template project'
+
+# token verification timeout limit(seconds)
+# This is used for Password reset token and User Activation token
+# default_token_generator = PasswordResetTokenGenerator()
+PASSWORD_RESET_TIMEOUT = 60*60*24  # 24hrs
