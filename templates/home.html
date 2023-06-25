@@ -6,4 +6,10 @@
 <h2>You have already logged in.</h2>
 <p>{{ user }}</p>
 {% endif %}
+<hr>
+<h2>Zukan</h2>
+<ul>
+    <li><a href="{% url 'zukan:index' 'dog' %}">Dog Zukan</a></li>
+    <li><a href="{% url 'zukan:index' 'cat' %}">Cat Zukan</a></li>
+</ul>
 {% endblock %}

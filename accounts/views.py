@@ -61,7 +61,7 @@ def user_activate(request, uid_b64, token):
         user.is_active = True
         user.save()
         messages.success(request, 'High-Five! You have joined our service!')
-        return redirect('accounts:activated')
+        return HttpResponse('<h1>You have been activated!</h1>')
     else:
         messages.error(request, 'Invalid activation link has been detected')
         return redirect('accounts:register_user')
@@ -189,7 +189,3 @@ def change_email_confirm(request, uid_b64, token):
 
 def change_email_success(request):
     return HttpResponse('<h1>Your email has been changed successfully.</h1>')
-
-
-def activated(request):
-    return HttpResponse('<h1>You have been activated!</h1>')

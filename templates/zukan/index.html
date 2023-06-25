@@ -1,0 +1,6 @@
+<h1>{{ category | capfirst }}Zukan Index</h1>
+<ul>
+    {% for obj in zukan %}
+    <li><a href="{{ obj.get_absolute_url }}">{{ obj.name }}</a></li>
+    {% endfor %}
+</ul>
