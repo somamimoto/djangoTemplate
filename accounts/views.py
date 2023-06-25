@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
-from .forms import UserForm
-from .utils import send_verification_email, send_email_with_textmessage
+from .forms import UserForm, UserEmailChangeForm
+from .utils import send_verification_email, send_confirm_new_email, send_email_with_textmessage
 from django.contrib import messages
 from django.contrib import auth
 from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
+from django.core import signing
+from datetime import timedelta
 from django.http import HttpResponse
 import logging
 
@@ -39,9 +42,7 @@ def register_user(request):
         if request.user.is_authenticated:
             return redirect('accounts:login')
         form = UserForm()
-    context = {
-        'form': form,
-    }
+    context = {'form': form,}
     return render(request, 'accounts/register_user.html', context)
 
 
@@ -141,6 +142,53 @@ def reset_password(request):
             messages.error(request, 'Password does not match.')
             return redirect('accounts:reset_password')
     return render(request, 'accounts/reset_password.html')
+
+
+@login_required(login_url='accounts:login')
+def change_email(request):
+    if request.method == 'POST':
+        form = UserEmailChangeForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            new_email = form.cleaned_data['email']
+
+            mail_subject = 'Please confirm your new email'
+            email_template = 'accounts/email/account_confirm_new_email.html'
+            send_confirm_new_email(request, user, new_email, mail_subject, email_template)
+            messages.success(request, 'Confirm new email link has been sent to your new email')
+            return HttpResponse('<h1>Change email confirm link has been sent.</h1>')
+    else:
+        form = UserForm()
+    context = {'form': form,}
+    return render(request, 'accounts/change_email.html', context)
+
+
+def change_email_confirm(request, uid_b64, token):
+    try:
+        uid = urlsafe_base64_decode(uid_b64).decode()
+        User = auth.get_user_model()
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    except Exception:
+        user = None
+        logging.exception('change_email_confirm error message:')
+
+    # Check the token
+    signer = signing.TimestampSigner(salt='django.core.signing')
+    try:
+        value_dict = signer.unsign_object(token, max_age=timedelta(days=1))
+        new_email = value_dict['new_email']
+        if user is not None:
+            user.email = new_email
+            user.save()
+            return redirect('accounts:change_email_success')
+    except Exception:
+        logging.exception('change_email_confirm unsign error message:')
+    return HttpResponse('This link has been expired.')
+
+def change_email_success(request):
+    return HttpResponse('<h1>Your email has been changed successfully.</h1>')
 
 
 def activated(request):

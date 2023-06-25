@@ -17,3 +17,14 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError(
                 'Password does not match!'
             )
+
+class UserEmailChangeForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['email',]
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        User.objects.filter(email__exact=email, is_active=False).delete()
+        return email

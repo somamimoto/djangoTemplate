@@ -1,0 +1,9 @@
+{% autoescape off %}
+
+Hi {{ user.first_name }}
+You have requested to change email to {{ new_email }}
+
+Please click on below link to finish requesting to change your email.
+{{ protocol }}://{{ domain }}{% url 'accounts:change_email_confirm' uid_b64=uid token=token %}
+
+{% endautoescape %}
