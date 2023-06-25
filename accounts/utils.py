@@ -19,3 +19,14 @@ def send_verification_email(request, user, mail_subject, email_template):
     to_email = user.email
     mail = EmailMessage(mail_subject, message, from_email, to=[to_email])
     mail.send()
+
+
+def send_email_with_textmessage(request, user, mail_subject, text_message, email_template):
+    message = render_to_string(email_template, context={
+        'user': user,
+        'text_message': text_message
+    })
+    from_email = settings.DEFAULT_FROM_EMAIL
+    to_email = user.email
+    mail = EmailMessage(mail_subject, message, from_email, to=[to_email])
+    mail.send()
