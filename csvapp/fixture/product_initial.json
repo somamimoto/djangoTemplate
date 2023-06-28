@@ -1,0 +1,23 @@
+[
+    {
+        "model": "csvapp.product",
+        "fields": {
+            "name": "productA",
+            "price": "1990"
+        }
+    },
+    {
+        "model": "csvapp.product",
+        "fields": {
+            "name": "productB",
+            "price": "2550"
+        }
+    },
+    {
+        "model": "csvapp.product",
+        "fields": {
+            "name": "productC",
+            "price": "3120"
+        }
+    }
+]

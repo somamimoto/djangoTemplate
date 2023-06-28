@@ -12,4 +12,10 @@
     <li><a href="{% url 'zukan:index' 'dog' %}">Dog Zukan</a></li>
     <li><a href="{% url 'zukan:index' 'cat' %}">Cat Zukan</a></li>
 </ul>
+<hr>
+<h2>CSV App</h2>
+<ul>
+    <li><a href="{% url 'csvapp:csv_import' %}">CSV import page</a></li>
+    <li><a href="{% url 'csvapp:csv_export' %}">CSV export page</a></li>
+</ul>
 {% endblock %}

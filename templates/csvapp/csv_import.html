@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>CSV import to Sales History</h1>
+<p>Need columns: "product", "num" and "date"</p>
+<form action="{% url 'csvapp:csv_import' %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+    <label>CSV File</label><div>{{ form.file }}</div>
+    <label>Does this file have header?</label><div>{{ form.has_header }}</div>
+    <input type="submit" value="Import file">
+</form>
+{% endblock %}

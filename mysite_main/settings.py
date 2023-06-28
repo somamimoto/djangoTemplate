@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'zukan.apps.ZukanConfig',
+    'csvapp.apps.CsvappConfig',
 ]
 
 MIDDLEWARE = [
