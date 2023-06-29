@@ -1,1 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>CSV export</h1>
+<p>You are able to export Product and Sales History.</p>
+<form action="{% url 'csvapp:csv_export' %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+    <label>Which data do you want?</label><div>{{ form.select_data }}</div>
+    <input type="submit" value="Export data">
+</form>
+{% endblock %}
